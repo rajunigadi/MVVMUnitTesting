@@ -1,6 +1,5 @@
 package com.raju.mvvm.testing.utils
 
-import com.raju.mvvm.testing.utils.DispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 

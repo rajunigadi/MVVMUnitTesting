@@ -7,6 +7,7 @@ import com.raju.mvvm.testing.domain.UseCase
 import com.raju.mvvm.testing.utils.DispatcherProvider
 import com.raju.mvvm.testing.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -23,8 +24,13 @@ class UserViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UiState<List<User>>>(UiState.Loading)
     val uiState: StateFlow<UiState<List<User>>> = _uiState
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        exception.printStackTrace()
+        _uiState.value = UiState.Error(exception.message ?: "Something went wrong")
+    }
+
     fun getUsers() {
-        viewModelScope.launch(dispatcherProvider.main) {
+        viewModelScope.launch(dispatcherProvider.io + exceptionHandler) {
             _uiState.value = UiState.Loading
             useCase
                 .execute()

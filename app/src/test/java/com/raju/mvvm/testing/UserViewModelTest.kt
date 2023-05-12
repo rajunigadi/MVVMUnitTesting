@@ -40,7 +40,6 @@ class UserViewModelTest {
             val flow = flow { emit(expectedUsers) }
 
             `when`(useCase.execute()).thenReturn(flow)
-            `when`(dispatcherProvider.main).thenReturn(Dispatchers.Unconfined)
             `when`(dispatcherProvider.io).thenReturn(Dispatchers.Unconfined)
 
             // When
@@ -60,7 +59,6 @@ class UserViewModelTest {
             val flow = flow<List<User>> { throw Exception(expectedErrorMessage) }
 
             `when`(useCase.execute()).thenReturn(flow)
-            `when`(dispatcherProvider.main).thenReturn(Dispatchers.Unconfined)
             `when`(dispatcherProvider.io).thenReturn(Dispatchers.Unconfined)
 
             // When
@@ -77,7 +75,6 @@ class UserViewModelTest {
         val flow = flow<List<User>> { emptyList<User>() }
 
         `when`(useCase.execute()).thenReturn(flow)
-        `when`(dispatcherProvider.main).thenReturn(Dispatchers.Unconfined)
         `when`(dispatcherProvider.io).thenReturn(Dispatchers.Unconfined)
 
         // When
